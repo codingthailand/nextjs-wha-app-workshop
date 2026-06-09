@@ -9,7 +9,7 @@ export default function Hero() {
       <div className="relative z-10 max-w-3xl text-center">
         <Badge variant="default" asChild>
           <Link href="/product" className="no-underline!">
-            Welcome to WHA 2026
+            Welcome to WHA
           </Link>
         </Badge>
 
