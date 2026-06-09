@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
+import type { Course } from "@/services/course.service";
 
 type Props = {
-  courses: any[];
+  courses: Course[];
 }
 
 const FeaturesCourse = ({ courses }: Props) => {
