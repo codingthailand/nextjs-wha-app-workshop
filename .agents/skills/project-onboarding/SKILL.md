@@ -8,29 +8,30 @@ metadata:
   version: "1.0"
 ---
 
-## First-Time Setup
-
-```bash
-# 1. Install Deps
-npm install
-
-# 2. Copy env
-cp .env.example .env
-
-# 3. Pull DB Schema (Prisma ORM)
-npx prisma db pull
-
-# 4. Generate Prisma Client 
-npx prisma generate
-
-# 5. check lint
-npm run lint
-```
-
 ## Gotchas
 
 - ต้องติดตั้ง และปิด Docker Desktop ไว้
 - ให้อธิบายการรันโปรเจกต์ และให้ใช้คำสั่ง npm run dev
+- อย่าลืม copy หรือสร้าง .env ด้วย
+
+## First-Time Setup Checklist
+
+```bash
+# 1. Install Deps
+[ ] npm install
+
+# 2. Copy env
+[ ] cp .env.example .env
+
+# 3. Pull DB Schema (Prisma ORM)
+[ ] npx prisma db pull
+
+# 4. Generate Prisma Client 
+[ ] npx prisma generate
+
+# 5. check lint
+npm run lint
+```
 
 ## Output
 

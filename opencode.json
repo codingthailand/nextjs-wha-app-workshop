@@ -15,6 +15,9 @@
       "git add *": "ask",  
       "git commit *": "ask",
       "rm *": "ask"
+    },
+    "skill": {
+      "vercel-*": "ask"
     }
   }
 }
