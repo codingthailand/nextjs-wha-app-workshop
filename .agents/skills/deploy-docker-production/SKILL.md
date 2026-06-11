@@ -1,5 +1,4 @@
 ---
-
 name: deploy-docker-production
 description: Build and run a local (production) Next.js Docker image safely. Use this skill when the user wants to build a Docker image for a Next.js app and run it with an env file, especially when the image version tag must be checked locally before building.
 ---
