@@ -1,27 +1,29 @@
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 import prisma from "@/lib/prisma"
 import type { Prisma } from "../../../../../generated/prisma/client"
 import { productSchema } from "@/lib/validations/product"
 
 const ITEMS_PER_PAGE = 10
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) {
+    return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
+  }
+
+  const { searchParams } = request.nextUrl
+  const page = Math.max(1, Number(searchParams.get("page")) || 1)
+  const search = searchParams.get("search") || ""
+
+  const where: Prisma.productsWhereInput = {}
+  if (search) {
+    where.name = { contains: search }
+  }
+
   try {
-    const session = await auth.api.getSession({ headers: request.headers })
-    if (!session) {
-      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const page = Math.max(1, Number(searchParams.get("page")) || 1)
-    const search = searchParams.get("search") || ""
-
-    const where: Prisma.productsWhereInput = {}
-    if (search) {
-      where.name = { contains: search }
-    }
-
     const [products, total] = await Promise.all([
       prisma.products.findMany({
         where,
@@ -60,13 +62,13 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
-  try {
-    const session = await auth.api.getSession({ headers: request.headers })
-    if (!session) {
-      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
-    }
+export async function POST(request: NextRequest) {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) {
+    return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
+  }
 
+  try {
     const body = await request.json()
     const parsed = productSchema.safeParse(body)
 

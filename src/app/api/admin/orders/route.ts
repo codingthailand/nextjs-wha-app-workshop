@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 import prisma from "@/lib/prisma"
 import type { AdminOrderItem } from "@/types/admin"
 
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const limit = Math.min(Number(searchParams.get("limit")) || 5, 50)
+export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl
+  const limit = Math.min(Number(searchParams.get("limit")) || 5, 50)
 
+  try {
     const orders = await prisma.orders.findMany({
       take: limit,
       orderBy: { date: "desc" },

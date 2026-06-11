@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 import prisma from "@/lib/prisma"
 import type { RevenuePoint } from "@/types/admin"
 
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const period = searchParams.get("period") || "30d"
+export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl
+  const period = searchParams.get("period") || "30d"
 
-    const days = period === "7d" ? 7 : period === "90d" ? 90 : 30
+  const days = period === "7d" ? 7 : period === "90d" ? 90 : 30
+
+  try {
     const startDate = new Date()
     startDate.setDate(startDate.getDate() - days)
     startDate.setHours(0, 0, 0, 0)
